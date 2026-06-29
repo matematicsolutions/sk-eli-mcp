@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "sk-eli-mcp": {
+      "command": "sk-eli-mcp",
+      "env": {
+        "SK_ELI_BASE_URL": "https://static.slov-lex.sk",
+        "SK_ELI_CACHE_DIR": "~/.matematic/cache/sk-eli",
+        "SK_ELI_AUDIT_DIR": "~/.matematic/audit"
+      }
+    }
+  }
+}
