@@ -34,6 +34,14 @@ Every response carries the contract: `eli_uri` (the Slov-lex URL, e.g.
 
 ## Install
 
+Run it with no install step (once published to PyPI):
+
+```bash
+uvx sk-eli-mcp
+```
+
+Or from source:
+
 ```bash
 cd sk-eli-mcp
 pip install -e .
