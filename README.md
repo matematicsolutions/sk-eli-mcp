@@ -1,5 +1,7 @@
 # sk-eli-mcp
 
+<!-- mcp-name: io.github.matematicsolutions/sk-eli-mcp -->
+
 An MCP server for the Slovak **Collection of Laws** (Zbierka zákonov) via **static.slov-lex.sk**,
 the JavaScript-free static mirror of the Slov-lex portal. It fetches Slovak legislation and its
 consolidated versions, with verifiable citations.
