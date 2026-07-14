@@ -22,6 +22,7 @@ from mcp.types import ToolAnnotations
 
 from .audit import AuditLogger, hash_input, timer
 from .citations import build_act_record, current_version, extract_text, parse_versions, version_url
+from . import runtime
 from .client import DEFAULT_BASE_URL, SlovLexClient
 from .models import Act, LawText, Version, VersionListResult
 
@@ -80,7 +81,7 @@ mcp: FastMCP = FastMCP(name="sk-eli-mcp", instructions=INSTRUCTIONS)
 
 
 def _base_url() -> str:
-    return os.environ.get("SK_ELI_BASE_URL", DEFAULT_BASE_URL).rstrip("/")
+    return os.environ.get("SK_ELI_BASE_URL", runtime.base_url("eli", DEFAULT_BASE_URL)).rstrip("/")
 
 
 def _audit() -> AuditLogger:
