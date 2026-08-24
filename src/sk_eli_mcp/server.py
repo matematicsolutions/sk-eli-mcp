@@ -38,6 +38,7 @@ This MCP server exposes the Slovak Collection of Laws (Zbierka zakonov) via stat
 
 ## Hard constraints
 
+- **Do not answer past the edge of this corpus** - when a search comes back empty, or the question touches material this connector does not carry, call `sk_coverage` and relay what it says is missing. Absence here is not absence in the law.
 - **No free-text search** - addressed by year + number, not keywords. A Slovak citation gives them (e.g. "18/2018 Z. z."). Relay the `dataset_note`.
 - **ELI is national (Pillar I), not data.europa.eu** - the static pages carry no machine ELI metadata; `eli_uri` is the canonical Slov-lex URL (`slov-lex.sk/pravne-predpisy/SK/ZZ/{year}/{number}`). Relay the `eli_note`. Do not invent it.
 - **Text is extracted from the official HTML** - `sk_get_text` extracts the act text from the Slov-lex version page; do not paraphrase it as the law.
