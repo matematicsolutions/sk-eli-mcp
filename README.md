@@ -29,6 +29,7 @@ LU, DK, CZ, HR and LT. Same citation contract, Slov-lex source. Slovakia impleme
 | `sk_get_versions` | List an act's consolidated versions (effective dates, amending act). |
 | `sk_get_act` | Metadata for an act by year + number, plus the current in-force version. |
 | `sk_get_text` | Full text of an act version (default: the current in-force version). |
+| `sk_coverage` | Declare what this connector covers, when each family was captured, and - explicitly - what it does NOT cover. Every gap carries a fallback. |
 
 Every response carries the contract: `eli_uri` (the Slov-lex URL, e.g.
 `https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/2018/18/`), `human_readable_citation`
