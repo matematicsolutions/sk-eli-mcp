@@ -1,0 +1,612 @@
+{
+  "package_version": "0.3.3",
+  "tools": {
+    "sk_coverage": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "Declare what this connector covers, how it is sourced, and what it does NOT cover.\n\nCall this before telling a user that the law \"does not contain\" something, and whenever\na search comes back empty: the absence may be a gap in this connector rather than in the\nlaw. Every gap carries a fallback saying where to look instead.\n\nReturns:\n    ``Coverage`` with families, an as-of note, and a non-empty list of known gaps.",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "sk_coverage",
+        "outputSchema": {
+          "additionalProperties": true,
+          "description": "What this connector covers, how it is sourced, and what it does not cover.",
+          "properties": {
+            "as_of_note": {
+              "description": "States what the dates mean, and what they do not promise.",
+              "type": "string"
+            },
+            "families": {
+              "items": {
+                "additionalProperties": true,
+                "description": "One data family this connector exposes.",
+                "properties": {
+                  "captured_at": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Date this family was last captured (ISO). None when queried live."
+                  },
+                  "live": {
+                    "default": true,
+                    "description": "True when queried live instead of from a snapshot.",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "Data family, e.g. 'Federal legislation'.",
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Official source the data comes from.",
+                    "type": "string"
+                  },
+                  "tool": {
+                    "description": "Tool or tools that reach this family.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "tool",
+                  "source"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "known_gaps": {
+              "description": "Never empty. An empty list would mean 'not checked', not 'no gaps'.",
+              "items": {
+                "additionalProperties": true,
+                "description": "A known, named hole in this connector's coverage - plus the way around it.",
+                "properties": {
+                  "fallback": {
+                    "description": "Where to go instead.",
+                    "type": "string"
+                  },
+                  "family": {
+                    "description": "Which family the gap belongs to.",
+                    "type": "string"
+                  },
+                  "id": {
+                    "description": "Stable gap identifier.",
+                    "type": "string"
+                  },
+                  "missing": {
+                    "description": "What is NOT available through this connector.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "family",
+                  "missing",
+                  "fallback"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "status": {
+              "default": "ok",
+              "enum": [
+                "ok",
+                "degraded",
+                "failed"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "as_of_note"
+          ],
+          "type": "object"
+        }
+      },
+      "sha256": "3cd2b43be38692b369adbf44af376f423463eb3bdccc1ec6c34897eaeb397d6a"
+    },
+    "sk_get_act": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "Fetch Slovak act metadata by year and number.",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "number": {
+              "description": "e.g. ``18``.",
+              "type": "integer"
+            },
+            "year": {
+              "description": "e.g. ``2018``.",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "year",
+            "number"
+          ],
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "sk_get_act",
+        "outputSchema": {
+          "additionalProperties": true,
+          "description": "A Slovak act (metadata + current version pointer).",
+          "properties": {
+            "citation": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "current_effective_from": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "current_version_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "dataset_note": {
+              "default": "The Slovak Collection of Laws (Zbierka zakonov) is served on static.slov-lex.sk, a JavaScript-free static mirror of the Slov-lex portal. Acts are addressed by year + number (e.g. 18/2018); each act has consolidated versions over time (sk_get_versions). Full text is the official HTML rendering of a version. There is no free-text search. Language: Slovak.",
+              "type": "string"
+            },
+            "eli_note": {
+              "default": "Slovakia implements ELI (Pillar I) but the static pages carry no machine-readable ELI metadata; eli_uri is the canonical Slov-lex ELI-style URL (slov-lex.sk/pravne-predpisy/SK/ZZ/{year}/{number}), the stable national identifier. The text is served from the static.slov-lex.sk mirror (source_url).",
+              "type": "string"
+            },
+            "eli_uri": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "human_readable_citation": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "number": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "source_url": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "version_count": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "year": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "type": "object"
+        }
+      },
+      "sha256": "c44c48fd90e15148d33587e10591b33348c1888595f6b12e6e8b5fefbad94493"
+    },
+    "sk_get_text": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "Fetch the full text of a Slovak act (a consolidated version).",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "number": {
+              "description": "e.g. ``18``.",
+              "type": "integer"
+            },
+            "version_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "optional - a date like ``\"20240701\"`` or ``\"vyhlasene_znenie\"`` (as-promulgated).\nDefault: the current in-force version."
+            },
+            "year": {
+              "description": "e.g. ``2018``.",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "year",
+            "number"
+          ],
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "sk_get_text",
+        "outputSchema": {
+          "additionalProperties": true,
+          "description": "Result of ``sk_get_text`` (official HTML rendering of a version, as plain text).",
+          "properties": {
+            "byte_size": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "citation": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "content": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "dataset_note": {
+              "default": "The Slovak Collection of Laws (Zbierka zakonov) is served on static.slov-lex.sk, a JavaScript-free static mirror of the Slov-lex portal. Acts are addressed by year + number (e.g. 18/2018); each act has consolidated versions over time (sk_get_versions). Full text is the official HTML rendering of a version. There is no free-text search. Language: Slovak.",
+              "type": "string"
+            },
+            "eli_note": {
+              "default": "Slovakia implements ELI (Pillar I) but the static pages carry no machine-readable ELI metadata; eli_uri is the canonical Slov-lex ELI-style URL (slov-lex.sk/pravne-predpisy/SK/ZZ/{year}/{number}), the stable national identifier. The text is served from the static.slov-lex.sk mirror (source_url).",
+              "type": "string"
+            },
+            "eli_uri": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "format": {
+              "default": "text/plain (extracted from the official Slov-lex HTML)",
+              "type": "string"
+            },
+            "human_readable_citation": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "number": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "source_url": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "version_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "year": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "type": "object"
+        }
+      },
+      "sha256": "30de78e2acfa8ef46e720c9cad7a7afd691989fa9d8762c8fe5535be5606dc61"
+    },
+    "sk_get_versions": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "List the consolidated versions of a Slovak act.",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "number": {
+              "description": "e.g. ``18``.",
+              "type": "integer"
+            },
+            "year": {
+              "description": "e.g. ``2018``.",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "year",
+            "number"
+          ],
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "sk_get_versions",
+        "outputSchema": {
+          "additionalProperties": true,
+          "description": "Result of ``sk_get_versions``.",
+          "properties": {
+            "citation": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "dataset_note": {
+              "default": "The Slovak Collection of Laws (Zbierka zakonov) is served on static.slov-lex.sk, a JavaScript-free static mirror of the Slov-lex portal. Acts are addressed by year + number (e.g. 18/2018); each act has consolidated versions over time (sk_get_versions). Full text is the official HTML rendering of a version. There is no free-text search. Language: Slovak.",
+              "type": "string"
+            },
+            "eli_uri": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "items": {
+              "items": {
+                "additionalProperties": true,
+                "description": "One consolidated version of a Slovak act.",
+                "properties": {
+                  "amended_by": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "effective_from": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "effective_to": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "in_force": {
+                    "default": false,
+                    "type": "boolean"
+                  },
+                  "is_promulgated": {
+                    "default": false,
+                    "type": "boolean"
+                  },
+                  "label": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "source_url": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "version_id": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "number": {
+              "type": "integer"
+            },
+            "total": {
+              "default": 0,
+              "type": "integer"
+            },
+            "year": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "year",
+            "number"
+          ],
+          "type": "object"
+        }
+      },
+      "sha256": "b38455c9460a7bf3f4f2e2ec63119be713d6fa7f05731341b2a9b162f0545d33"
+    }
+  },
+  "toolset_sha256": "0bc3f85c0bab78fa36315f8d506951b0fd281f2e2a0f66c4f2c54c77f6f23586"
+}
