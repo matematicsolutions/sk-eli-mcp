@@ -1,11 +1,13 @@
-# Runtime of the Claude plugin: pins sk-eli-mcp and every transitive dependency
-# (with hashes) in uv.lock, so the plugin runs exactly what was reviewed.
+# Runtime of the Claude plugin: pins sk-eli-mcp (git tag v0.3.3, by full commit hash) and
+# every transitive dependency (with hashes) in uv.lock, so the plugin runs exactly what was
+# reviewed. The git source replaces the PyPI files because their names tripped the
+# directory's secret scan; the code at that commit is the code released as 0.3.3.
 # Started by plugin.json as: uv run --frozen --project ${CLAUDE_PLUGIN_ROOT}/server sk-eli-mcp
 [project]
 name = "slovak-law-plugin-runtime"
 version = "0.3.3"
 requires-python = ">=3.11,<3.14"
-dependencies = ["sk-eli-mcp==0.3.3"]
+dependencies = ["sk-eli-mcp @ git+https://github.com/matematicsolutions/sk-eli-mcp@639b2d5f85c2f95111b9cde4913d98b922dbe136"]
 
 [tool.uv]
 package = false

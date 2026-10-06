@@ -1,9 +1,10 @@
 # sk-eli-mcp - Claude plugin
 
 Slovak law with verifiable citations, as a Claude plugin. It runs the
-[sk-eli-mcp](https://github.com/matematicsolutions/sk-eli-mcp) MCP server, version 0.3.3
-from PyPI. `server/uv.lock` pins that package and every dependency with hashes, and the
-plugin starts it with `uv run --frozen`, so it runs exactly what was reviewed. Every
+[sk-eli-mcp](https://github.com/matematicsolutions/sk-eli-mcp) MCP server, version 0.3.3,
+taken from this repository at the commit tagged `v0.3.3` (the code released as 0.3.3 on PyPI).
+`server/uv.lock` pins that commit and every dependency with hashes, and the plugin starts it
+with `uv run --frozen`, so it runs exactly what was reviewed. Every
 answer carries the official source, so a citation can be checked instead of trusted.
 
 What it covers: the Slovak Collection of Laws (Zbierka zakonov) via Slov-Lex (static.slov-lex.sk): an act by year and number, its list of consolidated versions, and the text of the current or a chosen version, with the national ELI identifier. The full tool list is in the
@@ -11,8 +12,9 @@ What it covers: the Slovak Collection of Laws (Zbierka zakonov) via Slov-Lex (st
 
 ## Requirements
 
-Claude Code or the Claude desktop app, and [uv](https://docs.astral.sh/uv/) on your
-machine (it installs the locked packages on first start and runs the server).
+Claude Code or the Claude desktop app, [uv](https://docs.astral.sh/uv/) and git on your
+machine (uv fetches the pinned commit, installs the locked packages on first start and runs
+the server).
 
 ## Install
 

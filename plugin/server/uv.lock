@@ -1057,17 +1057,13 @@ wheels = [
 [[package]]
 name = "sk-eli-mcp"
 version = "0.3.3"
-source = { registry = "https://pypi.org/simple" }
+source = { git = "https://github.com/matematicsolutions/sk-eli-mcp?rev=639b2d5f85c2f95111b9cde4913d98b922dbe136#639b2d5f85c2f95111b9cde4913d98b922dbe136" }
 dependencies = [
     { name = "anyio" },
     { name = "diskcache" },
     { name = "fastmcp" },
     { name = "httpx" },
     { name = "pydantic" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/7d/db/cfeb95d406e07a9a9600fea1bc6bed0c07763d79f450d9e2b16a0a06ce7c/sk_eli_mcp-0.3.3.tar.gz", hash = "sha256:6c3dbffd93125c33465e9f54f9b7abf07babe657e4e85de2724d3f7324868da1", size = 27485, upload-time = "2026-08-24T13:33:49.354Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/c9/83/df9b683984f073c02df2c53fac3e9c945b8495b21a418a53fd7d18cdb967/sk_eli_mcp-0.3.3-py3-none-any.whl", hash = "sha256:6db6ea06fb909ed814489f19e24f9d8951f0e8dd7d43c48029994718dfb9e06a", size = 22482, upload-time = "2026-08-24T13:33:48.317Z" },
 ]
 
 [[package]]
@@ -1079,7 +1075,7 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "sk-eli-mcp", specifier = "==0.3.3" }]
+requires-dist = [{ name = "sk-eli-mcp", git = "https://github.com/matematicsolutions/sk-eli-mcp?rev=639b2d5f85c2f95111b9cde4913d98b922dbe136" }]
 
 [[package]]
 name = "sse-starlette"
