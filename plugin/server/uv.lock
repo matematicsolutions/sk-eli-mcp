@@ -1071,7 +1071,7 @@ wheels = [
 ]
 
 [[package]]
-name = "sk-eli-mcp-plugin-runtime"
+name = "slovak-law-plugin-runtime"
 version = "0.3.3"
 source = { virtual = "." }
 dependencies = [
