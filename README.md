@@ -37,7 +37,15 @@ Every response carries the contract: `eli_uri` (the Slov-lex URL, e.g.
 
 ## Install
 
-Run it with no install step (once published to PyPI):
+As a Claude plugin (Claude Code or the desktop app, needs [uv](https://docs.astral.sh/uv/));
+see [plugin/README.md](plugin/README.md) for what it sends and stores:
+
+```
+/plugin marketplace add matematicsolutions/sk-eli-mcp
+/plugin install sk-eli-mcp@sk-eli-mcp
+```
+
+As a standalone server, from PyPI:
 
 ```bash
 uvx sk-eli-mcp
@@ -94,7 +102,12 @@ No API key. The Slov-lex static mirror is keyless.
 
 - **Public data only** - read-only against Slov-lex; no client data leaves the machine.
 - **Audit log** - every tool call appends one JSON line to `~/.matematic/audit/sk-eli-mcp.jsonl`.
-- **Vendor-neutral** - talks only to `static.slov-lex.sk`; no LLM provider, no telemetry.
+- **Network** - the server talks to `static.slov-lex.sk` and the local filesystem. Once, on
+  first use, it also fetches a small configuration file (`sk-runtime.json.gz`, updated source
+  addresses) from this repository's GitHub Releases. That request carries no query content;
+  GitHub's download counter for the file is the only usage signal we see.
+  `SK_ELI_RUNTIME_URL=""` turns it off; the Claude plugin ships with it off. No LLM provider,
+  no other telemetry.
 - **Verifiable citations** - every response is independently checkable via `source_url`.
 
 See `CONSTITUTION.md` and `DISCOVERY.md`.
